@@ -37,6 +37,8 @@ $ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET"
 $ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'
 ```
 
+The ipfs deamon needs to be restarted after setting this. 
+
 ### Installation and running
 
 ```bash

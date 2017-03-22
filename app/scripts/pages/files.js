@@ -2,6 +2,7 @@ import React from 'react'
 import {Row, Col, Nav, NavItem, Panel} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import debug from 'debug'
+import Clipboard from 'clipboard'
 
 import FileList from '../views/filelist'
 import i18n from '../utils/i18n.js'
@@ -24,6 +25,7 @@ default class Files extends React.Component {
 
   componentDidMount () {
     this.getFiles()
+    this.clipboard = new Clipboard('#hash-copy-button')
   }
 
   getFiles () {
@@ -77,12 +79,13 @@ default class Files extends React.Component {
         res = res[0]
 
         this.setState({
-          confirm: res.Name || file.name
+          confirm: res.Name || file.name,
+          hash: res.hash
         })
 
         setTimeout(() => this.setState({
           confirm: null
-        }), 6000)
+        }), 10000)
       })
     }
 
@@ -152,6 +155,15 @@ default class Files extends React.Component {
         <div className={!this.state.confirm ? 'hidden' : ''}>
           <p>
             <i className='fa fa-lg fa-thumbs-up' /> {i18n.t('Added')} <strong>{this.state.confirm}</strong>
+          </p>
+          <p>
+            <strong>{i18n.t('Hash')}: </strong><span id='file-hash'>{this.state.hash} </span>
+            <button
+              id='hash-copy-button'
+              className={'btn add-file'}
+              data-clipboard-target='#file-hash'>
+              <img src={require('../../img/copy-icon.png')} alt='Copy to clipboard' />
+            </button>
           </p>
         </div>
         <input
